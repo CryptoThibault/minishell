@@ -1,4 +1,8 @@
 .DS_Store
 minishell
+libft/*.o
+libft/*.a
 */*.swp
 */*/*.swp
+infile
+outfile
