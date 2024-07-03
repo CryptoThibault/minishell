@@ -87,6 +87,8 @@ void	free_array(char **array);
 void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
 
+void	execute(t_msh *msh);
+
 void	builtins(int ac, char **av);
 void	cmd_echo(int ac, char **av);
 void	cmd_cd(int ac, char **av);

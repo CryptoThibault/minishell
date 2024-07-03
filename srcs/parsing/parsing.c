@@ -49,7 +49,7 @@ void	fill_command(t_msh *msh, t_token **token)
 {
 	int	i;
 	
-	msh->cmd = malloc(sizeof(char *) * count_words(*token));
+	msh->cmd = malloc(sizeof(char *) * (count_words(*token) + 1));
 	if (!msh->cmd)
 		return ;
 	i = -1;
@@ -58,6 +58,7 @@ void	fill_command(t_msh *msh, t_token **token)
 		msh->cmd[++i] = ft_strdup((*token)->word);
 		*token = (*token)->next;
 	}
+	msh->cmd[++i] = NULL;
 }
 
 void	fill_smaller(t_msh *msh, t_token **token)
@@ -69,8 +70,12 @@ void	fill_smaller(t_msh *msh, t_token **token)
 		msh->here_doc = 1;
 	}
 	if ((*token)->id == WORD)
+	{
 		msh->infile = ft_strdup((*token)->word);
-	*token = (*token)->next;
+		*token = (*token)->next;
+	}
+	else
+		perror("parsing error");
 }
 
 void	fill_bigger(t_msh *msh, t_token **token)
@@ -82,8 +87,12 @@ void	fill_bigger(t_msh *msh, t_token **token)
 		msh->append = 1;
 	}
 	if ((*token)->id == WORD)
+	{
 		msh->outfile = ft_strdup((*token)->word);
-	*token = (*token)->next;
+		*token = (*token)->next;
+	}
+	else
+		perror("parsing error");
 }
 
 void	fill_msh(t_msh *msh, t_token **token)
@@ -176,7 +185,7 @@ int	main(void)
 	t_msh	*start;
 
 
-	token = lexing("< infile ls | cat -e > outfile | echo hello");
+	token = lexing("< infile ls |cat -e Makefile > outfile | echo hello");
 	//token = lexing("cat -e | ls");
 	msh = parsing(token);
 	free_token(&token);
@@ -187,13 +196,14 @@ int	main(void)
 		if (msh->cmd)
 		{
 			int	i = -1;
-			while (msh->cmd && msh->cmd[++i])
+			while (msh->cmd[++i])
 				printf("cmd[%d]: %s\n", i, msh->cmd[i]);
-			if (msh->infile)
-				printf("infile: %s\n", msh->infile);
-			if (msh->outfile)
-				printf("outfile: %s\n", msh->outfile);
+			printf("HERE\n");
 		}
+		if (msh->infile)
+			printf("infile: %s\n", msh->infile);
+		if (msh->outfile)
+			printf("outfile: %s\n", msh->outfile);
 		msh = msh->next;
 	}
 	free_msh(&start);
