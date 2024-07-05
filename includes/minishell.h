@@ -36,8 +36,9 @@
 
 typedef struct	s_var
 {
-	char	*key;
-	char	*value;
+	char		*key;
+	char		*value;
+	struct s_var	*next;
 }		t_var;
 
 typedef struct s_token
