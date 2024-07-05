@@ -2,10 +2,11 @@
 minishell
 libft/*.o
 libft/*.a
+*.swp
 */*.swp
 */*/*.swp
 infile
 outfile
-parsing
 lexing
+parsing
 storage
