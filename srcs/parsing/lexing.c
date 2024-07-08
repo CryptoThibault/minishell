@@ -60,13 +60,70 @@ void	fill_word(char **word, char *line, int *i)
 	(*i)--;
 }
 
+void	fill_quote(char **word, char *line, int *i)
+{
+	int	j;
+	int	len;
+	
+	(*i)++;
+	j = *i;
+	len = 0;
+	while (line[j] && line[j++] != '\'')
+		len++;
+	*word = malloc(len + 1);
+	if (!*word)
+		return ;
+	j = 0;
+	while (line[*i] && line[*i] != '\'')
+	{
+		(*word)[j++] = line[*i];
+		(*i)++;
+	}
+	(*word)[j] = 0;
+	if (line[*i] == '\'')
+		(*i)++;
+}
+void	fill_doublequote(char **word, char *line, int *i)
+{
+	int	j;
+	int	len;
+
+	(*i)++;
+	j = *i;
+	len = 0;
+	while (line[j] && line[j++] != '"')
+		len++;
+	*word = malloc(len + 1);
+	if (!*word)
+		return ;
+	j = 0;
+	while (line[*i] && line[*i] != '"')
+	{
+		(*word)[j++] = line[*i];
+		(*i)++;
+	}
+	(*word)[j] = 0;
+	if (line[*i] == '"')
+		(*i)++;
+}
+
 int	fill_token(char **word, char *line, int *i)
 {
 	while (!is_whitespace(line[*i]))
 		(*i)++;
 	if (!line[*i])
 		return (0);
-	if (line[*i] == '<')
+	if (line[*i] == '\'')
+	{
+		fill_quote(word, line, i);
+		return (WORD);
+	}
+	else if (line[*i] == '"')
+	{
+		fill_doublequote(word, line, i);
+		return (WORD);
+	}
+	else if (line[*i] == '<')
 		return (SMALLER);
 	else if (line[*i] == '>')
 		return (BIGGER);

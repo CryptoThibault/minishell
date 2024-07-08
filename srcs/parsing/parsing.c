@@ -75,7 +75,7 @@ void	fill_smaller(t_msh *msh, t_token **token)
 		*token = (*token)->next;
 	}
 	else
-		perror("parsing error");
+		printf("msh: parse error");
 }
 
 void	fill_bigger(t_msh *msh, t_token **token)
@@ -92,7 +92,7 @@ void	fill_bigger(t_msh *msh, t_token **token)
 		*token = (*token)->next;
 	}
 	else
-		perror("parsing error");
+		printf("msh: parse error");
 }
 
 void	fill_msh(t_msh *msh, t_token **token)
@@ -185,7 +185,7 @@ int	main(void)
 	t_msh	*start;
 
 
-	token = lexing("< infile ls |cat -e Makefile > outfile | echo hello");
+	token = lexing("< infile \"ls\" |'cat -e' Makefile > outfile | echo hello");
 	//token = lexing("cat -e | ls");
 	msh = parsing(token);
 	free_token(&token);
@@ -198,7 +198,6 @@ int	main(void)
 			int	i = -1;
 			while (msh->cmd[++i])
 				printf("cmd[%d]: %s\n", i, msh->cmd[i]);
-			printf("HERE\n");
 		}
 		if (msh->infile)
 			printf("infile: %s\n", msh->infile);
