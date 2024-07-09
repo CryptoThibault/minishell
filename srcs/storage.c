@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   storage.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/09 16:06:46 by tchalaou          #+#    #+#             */
+/*   Updated: 2024/07/09 16:06:54 by tchalaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_var	*create_var(char *key, char *value)
@@ -71,7 +83,7 @@ void	free_var(t_var **var)
 		free(current);
 	}
 }
-
+/*
 int	main(void)
 {
 	t_var	*var;
@@ -90,4 +102,4 @@ int	main(void)
 	}
 	free_var(&start);
 	return(0);
-}
+}*/

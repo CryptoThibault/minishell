@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:02:41 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/02 16:22:56 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:57:55 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	free_msh(t_msh **msh)
 		free(current);
 	}
 }
-
+/*
 int	main(void)
 {
 	t_token	*token;
@@ -207,4 +207,4 @@ int	main(void)
 	}
 	free_msh(&start);
 	return (0);
-}
+}*/

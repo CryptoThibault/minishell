@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:15:54 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/02 16:38:35 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:03:06 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct s_msh
 	struct s_msh	*next;
 	struct s_msh	*prev;
 }		t_msh;
+
+t_var	*create_var(char *key, char *value);
+void	update_var(t_var *var, char *key, char *value);
+int	check_var(t_var *var, char *key);
+void	varadd_back(t_var **var, t_var *new);
+void	set_var(t_var **var, char *key, char *value);
+void	free_var(t_var **var);
 
 t_token	*create_token(int id, char *word);
 int	is_whitespace(char c);

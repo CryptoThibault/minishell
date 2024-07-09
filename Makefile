@@ -9,8 +9,8 @@ FILES = srcs/minishell.c \
 	srcs/parsing/parsing.c
 FLAGS = -Wall -Wextra -Werror
 
-$(NAME): libft
-	cc $(FLAGS) -o $@ $(FILES) -I includes -lreadline
+$(NAME): $(LIB)/$(LIB).a
+	cc $(FLAGS) -o $@ -I includes $(FILES) $^ -lreadline
 all: $(NAME)
 
 clean:
@@ -19,5 +19,5 @@ fclean: clean
 	rm  -f $(NAME)
 re: fclean  all
 
-libft:
+$(LIB)/$(LIB).a:
 	make -C $(LIB)
