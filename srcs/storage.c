@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:06:46 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/09 16:06:54 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:39:34 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_var	*create_var(char *key, char *value)
 {
 	t_var	*var;
+
 	var = malloc(sizeof(t_var));
 	if (!var)
 		return (NULL);

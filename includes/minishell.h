@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:15:54 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/09 16:03:06 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:29:54 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,24 @@ void	free_var(t_var **var);
 t_token	*create_token(int id, char *word);
 int	is_whitespace(char c);
 int	word_len(char *line, int start);
-void	fill_word(char **word, char *line, int *i);
-int	fill_token(char **word, char *line, int *i);
 void	tokenadd_back(t_token **token, t_token *new);
-t_token	*lexing(char *line);
 void	free_token(t_token **token);
+void	fill_word(char **word, char *line, int *i);
+void	fill_quote(char **word, char *line, int *i);
+void	fill_doublequote(char **word, char *line, int *i);
+int	fill_token(char **word, char *line, int *i);
+t_token	*lexing(char *line);
 
 t_msh	*create_msh(int index);
 int	count_words(t_token *token);
+t_msh	*mshget_last(t_msh *msh);
+void	mshadd_back(t_msh **msh, t_msh *new);
+void	free_msh(t_msh **msh);
 void	fill_command(t_msh *msh, t_token **token);
 void	fill_smaller(t_msh *msh, t_token **token);
 void	fill_bigger(t_msh *msh, t_token **token);
 void	fill_msh(t_msh *msh, t_token **token);
-t_msh	*mshget_last(t_msh *msh);
-void	mshadd_back(t_msh **msh, t_msh *new);
 t_msh	*parsing(t_token *token);
-void	free_msh(t_msh **msh);
 
 int		array_size(char **array);
 void	free_array(char **array);

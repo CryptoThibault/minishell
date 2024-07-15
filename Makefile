@@ -6,7 +6,9 @@ FILES = srcs/minishell.c \
 	srcs/storage.c \
 	srcs/execute.c \
 	srcs/parsing/lexing.c \
-	srcs/parsing/parsing.c
+	srcs/parsing/lexing_utils.c \
+	srcs/parsing/parsing.c \
+	srcs/parsing/parsing_utils.c
 FLAGS = -Wall -Wextra -Werror
 
 $(NAME): $(LIB)/$(LIB).a

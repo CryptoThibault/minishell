@@ -6,42 +6,11 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:51:23 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/06/28 15:20:54 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:20:41 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token	*create_token(int id, char *word)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->id = id;
-	token->word = word;
-	token->next = NULL;
-	return (token);
-}
-
-int	is_whitespace(char c)
-{
-	return (c != ' ' && c != '\t' && c != '\v' && c != '\n');
-}
-
-int	word_len(char *line, int start)
-{
-	int	len;
-
-	len = 0;
-	while (line[start] && !ft_strchr(" \t\n;<>|$", line[start]))
-	{
-		len++;
-		start++;
-	}
-	return (len);
-}
 
 void	fill_word(char **word, char *line, int *i)
 {
@@ -64,7 +33,7 @@ void	fill_quote(char **word, char *line, int *i)
 {
 	int	j;
 	int	len;
-	
+
 	(*i)++;
 	j = *i;
 	len = 0;
@@ -83,6 +52,7 @@ void	fill_quote(char **word, char *line, int *i)
 	if (line[*i] == '\'')
 		(*i)++;
 }
+
 void	fill_doublequote(char **word, char *line, int *i)
 {
 	int	j;
@@ -138,20 +108,6 @@ int	fill_token(char **word, char *line, int *i)
 	}
 }
 
-void	tokenadd_back(t_token **token, t_token *new)
-{
-	if (!new)
-		return ;
-	if (!*token)
-		*token = new;
-	else
-	{
-		while (*token)
-			token = &(*token)->next;
-		*token = new;
-	}
-}
-
 t_token	*lexing(char *line)
 {
 	t_token	*token;
@@ -172,19 +128,6 @@ t_token	*lexing(char *line)
 	return (token);
 }
 
-void	free_token(t_token **token)
-{
-	t_token	*current;
-
-	while (*token)
-	{
-		current = *token;
-		*token = current->next;
-		if (current->word)
-			free(current->word);
-		free(current);
-	}
-}
 /*
 int	main()
 {
