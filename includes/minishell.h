@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:15:54 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:29:54 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:36:26 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # define SMALLER 2
 # define BIGGER 3
 # define PIPE 4
-# define DOLLAR 5
 
 typedef struct	s_var
 {
@@ -41,11 +40,21 @@ typedef struct	s_var
 	struct s_var	*next;
 }		t_var;
 
+typedef struct s_env
+{
+	char	*full_var;
+	char	*var_name;
+	char	*var;
+	int		set;
+	struct	s_env	*next;
+}		t_env;
+
 typedef struct s_token
 {
 	int		id;
 	char		*word;
 	struct s_token	*next;
+	t_env		*env;
 }		t_token;
 
 typedef struct s_msh
@@ -70,16 +79,16 @@ void	varadd_back(t_var **var, t_var *new);
 void	set_var(t_var **var, char *key, char *value);
 void	free_var(t_var **var);
 
-t_token	*create_token(int id, char *word);
+t_token	*create_token(t_env *env);
 int	is_whitespace(char c);
 int	word_len(char *line, int start);
 void	tokenadd_back(t_token **token, t_token *new);
 void	free_token(t_token **token);
-void	fill_word(char **word, char *line, int *i);
-void	fill_quote(char **word, char *line, int *i);
-void	fill_doublequote(char **word, char *line, int *i);
-int	fill_token(char **word, char *line, int *i);
-t_token	*lexing(char *line);
+void	fill_word(t_token *token, char *line, int *i);
+void	fill_quote(t_token *token, char *line, int *i);
+void	fill_doublequote(t_token *token, char *line, int *i);
+void	fill_token(t_token *token, char *line, int *i);
+t_token	*lexing(char *line, t_env *env);
 
 t_msh	*create_msh(int index);
 int	count_words(t_token *token);

@@ -6,124 +6,123 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:51:23 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:20:41 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:55:26 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_word(char **word, char *line, int *i)
+/*
+void	get_value(t_token *token, char *line, int *i, int *j)
+{
+
+}*/
+
+void	fill_word(t_token *token, char *line, int *i)
 {
 	int	j;
 
-	*word = malloc(word_len(line, *i) + 1);
-	if (!*word)
+	token->id = WORD;
+	token->word = malloc(word_len(line, *i) + 1);
+	if (!token->word)
 		return ;
 	j = 0;
-	while (line[*i] && !ft_strchr(" \t\n;<>|$", line[*i]))
+	while (line[*i] && !ft_strchr(" \t\n<>|", line[*i]))
 	{
-		(*word)[j++] = line[*i];
+//		if (line[*i] == '$')
+//			get_value(token, line, i, &j);
+		token->word[j++] = line[*i];
 		(*i)++;
 	}
-	(*word)[j] = 0;
+	token->word[j] = 0;
 	(*i)--;
 }
 
-void	fill_quote(char **word, char *line, int *i)
+void	fill_quote(t_token *token, char *line, int *i)
 {
 	int	j;
 	int	len;
 
+	token->id = WORD;
 	(*i)++;
 	j = *i;
 	len = 0;
 	while (line[j] && line[j++] != '\'')
 		len++;
-	*word = malloc(len + 1);
-	if (!*word)
+	token->word = malloc(len + 1);
+	if (token->word)
 		return ;
 	j = 0;
 	while (line[*i] && line[*i] != '\'')
 	{
-		(*word)[j++] = line[*i];
+		token->word[j++] = line[*i];
 		(*i)++;
 	}
-	(*word)[j] = 0;
+	token->word[j] = 0;
 	if (line[*i] == '\'')
 		(*i)++;
 }
 
-void	fill_doublequote(char **word, char *line, int *i)
+void	fill_doublequote(t_token *token, char *line, int *i)
 {
 	int	j;
 	int	len;
 
+	token->id = WORD;
 	(*i)++;
 	j = *i;
 	len = 0;
 	while (line[j] && line[j++] != '"')
 		len++;
-	*word = malloc(len + 1);
-	if (!*word)
+	token->word = malloc(len + 1);
+	if (!token->word)
 		return ;
 	j = 0;
 	while (line[*i] && line[*i] != '"')
 	{
-		(*word)[j++] = line[*i];
+//		if (line[*i] == '$')
+//			get_value(token, line, i, &j);
+		token->word[j++] = line[*i];
 		(*i)++;
 	}
-	(*word)[j] = 0;
+	token->word[j] = 0;
 	if (line[*i] == '"')
 		(*i)++;
 }
 
-int	fill_token(char **word, char *line, int *i)
+void	fill_token(t_token *token, char *line, int *i)
 {
 	while (!is_whitespace(line[*i]))
 		(*i)++;
 	if (!line[*i])
-		return (0);
+		return ;
 	if (line[*i] == '\'')
-	{
-		fill_quote(word, line, i);
-		return (WORD);
-	}
+		fill_quote(token, line, i);
 	else if (line[*i] == '"')
-	{
-		fill_doublequote(word, line, i);
-		return (WORD);
-	}
+		fill_doublequote(token, line, i);
 	else if (line[*i] == '<')
-		return (SMALLER);
+		token->id = SMALLER;
 	else if (line[*i] == '>')
-		return (BIGGER);
+		token->id = BIGGER;
 	else if (line[*i] == '|')
-		return (PIPE);
-	else if (line[*i] == '$')
-		return (DOLLAR);
+		token->id = PIPE;
 	else
-	{
-		fill_word(word, line, i);
-		return (WORD);
-	}
+		fill_word(token, line, i);
 }
 
-t_token	*lexing(char *line)
+t_token	*lexing(char *line, t_env *env)
 {
 	t_token	*token;
+	t_token	*new;
 	int		i;
-	int		id;
-	char	*word;
 
 	token = NULL;
 	i = -1;
 	while (line[++i])
 	{
-		word = NULL;
-		id = fill_token(&word, line, &i);
-		if (!id)
-			break ;
-		tokenadd_back(&token, create_token(id, word));
+		new = create_token(env);
+		fill_token(new, line, &i);
+		tokenadd_back(&token, new);
 	}
 	return (token);
 }

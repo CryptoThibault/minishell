@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:06:46 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:39:34 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:50:25 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(void)
 	t_var	*start;
 
 	var = NULL;
-	set_var(&var, "test1_key", "test1_value");
+	set_var(&var, "test1_key", "");
 	set_var(&var, "test2_key", "test2_value");
 	set_var(&var, "test3_key", "test3_value");
 	set_var(&var, "test2_key", "test2_update");
@@ -103,4 +103,4 @@ int	main(void)
 	}
 	free_var(&start);
 	return(0);
-}*/
+} */

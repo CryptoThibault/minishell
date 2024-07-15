@@ -6,21 +6,22 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:15:51 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:17:51 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:49:44 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*create_token(int id, char *word)
+t_token	*create_token(t_env *env)
 {
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->id = id;
-	token->word = word;
+	token->id = -1;
+	token->word = NULL;
+	token->env = env;
 	token->next = NULL;
 	return (token);
 }
