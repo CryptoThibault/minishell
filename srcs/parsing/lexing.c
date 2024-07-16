@@ -12,11 +12,32 @@
 
 #include "minishell.h"
 
-/*
-void	get_value(t_token *token, char *line, int *i, int *j)
+void	fill_value(t_token *token, char *line, int *i)
 {
+	char	*key;
+	char	*value;
+	char	*tmp;
+	int		k;
 
-}*/
+	(*i)++;
+	key = malloc(word_len(line, *i) + 1);
+	if (!key)
+		return ;
+	k = 0;
+	while (line[*i] && !ft_strchr(" \t\n<>|'\"", line[*i]))
+		key[k++] = line[*i++];
+	key[k] = 0;
+	printf("key: %s\n", key);
+	value = get_value(token->env, key);
+	free(key);
+	if (value)
+	{
+		tmp = ft_strjoin(token->word, value);
+		free(value);
+		free(token->word);
+		token->word = tmp;
+	}
+}
 
 void	fill_word(t_token *token, char *line, int *i)
 {
@@ -27,10 +48,14 @@ void	fill_word(t_token *token, char *line, int *i)
 	if (!token->word)
 		return ;
 	j = 0;
-	while (line[*i] && !ft_strchr(" \t\n<>|", line[*i]))
+	while (line[*i] && !ft_strchr(" \t\n<>|'\"", line[*i]))
 	{
-//		if (line[*i] == '$')
-//			get_value(token, line, i, &j);
+		if (line[*i] == '$')
+		{
+			fill_value(token, line, i);
+			(*i)--;
+			return ;
+		}
 		token->word[j++] = line[*i];
 		(*i)++;
 	}
@@ -80,8 +105,13 @@ void	fill_doublequote(t_token *token, char *line, int *i)
 	j = 0;
 	while (line[*i] && line[*i] != '"')
 	{
-//		if (line[*i] == '$')
-//			get_value(token, line, i, &j);
+		if (line[*i] == '$')
+		{
+			fill_value(token, line, i);
+			if (line[*i] == '"')
+				(*i)++;
+			return ;
+		}
 		token->word[j++] = line[*i];
 		(*i)++;
 	}

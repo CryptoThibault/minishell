@@ -68,6 +68,7 @@ void	split_key_value(char *str, char **key, char **value);
 void	env_add_back(t_env **env, t_env *new);
 void	free_env(t_env **env);
 t_env	*get_env(void);
+char    *get_value(t_env *env, char *key);
 
 t_token	*create_token(t_env *env);
 int		is_whitespace(char c);

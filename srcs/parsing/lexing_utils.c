@@ -36,7 +36,7 @@ int	word_len(char *line, int start)
 	int	len;
 
 	len = 0;
-	while (line[start] && !ft_strchr(" \t\n;<>|$", line[start]))
+	while (line[start] && !ft_strchr(" \t\n;<>|'\"", line[start]))
 	{
 		len++;
 		start++;
