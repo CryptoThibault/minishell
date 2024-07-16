@@ -101,12 +101,14 @@ void	free_env(t_env **env)
 char	*get_value(t_env *env, char *key)
 {
 	t_env	*current;
+	int	key_len;
 
 	current = env;
+	key_len = ft_strlen(key);
 	while (current)
 	{
-		if (!ft_strncmp(key, env->key, ft_strlen(key)))
-			return (ft_strdup(current->value));
+		if (!ft_strncmp(key, current->key, key_len) && !current->key[key_len])
+			return (current->value);
 		current = current->next;
 	}
 	return (NULL);

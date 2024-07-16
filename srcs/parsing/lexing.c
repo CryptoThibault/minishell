@@ -25,10 +25,14 @@ void	fill_value(t_token *token, char *line, int *i)
 		return ;
 	k = 0;
 	while (line[*i] && !ft_strchr(" \t\n<>|'\"", line[*i]))
-		key[k++] = line[*i++];
+	{
+		key[k++] = line[*i];
+		(*i)++;
+	}
 	key[k] = 0;
-	printf("key: %s\n", key);
-	value = get_value(token->env, key);
+	if (!ft_strlen(key))
+		return ;
+	value = ft_strdup(get_value(token->env, key));
 	free(key);
 	if (value)
 	{
