@@ -12,71 +12,84 @@
 
 #include "minishell.h"
 
-t_var	*create_var(char *key, char *value)
+t_env	*create_env(char *key, char *value)
 {
-	t_var	*var;
+	t_env	*env;
 
-	var = malloc(sizeof(t_var));
-	if (!var)
+	env = malloc(sizeof(t_env));
+	if (!env)
 		return (NULL);
-	var->key = ft_strdup(key);
-	var->value = ft_strdup(value);
-	var->next = NULL;
-	return (var);
+	env->key = ft_strdup(key);
+	env->value = ft_strdup(value);
+	env->next = NULL;
+	return (env);
 }
 
-void	update_var(t_var *var, char *key, char *value)
+void	split_key_value(char *str, char **key, char **value)
 {
-	while (var && ft_strncmp(var->key, key, ft_strlen(key)))
-		var = var->next;
-	if (var)
+	char	*equal;
+
+	equal = ft_strchr(str, '=');
+	if (equal)
 	{
-		free(var->value);
-		var->value = ft_strdup(value);
+		*equal = '\0';
+		*key = str;
+		*value = equal + 1;
+	}
+	else
+	{
+		*key = str;
+		*value = NULL;
 	}
 }
 
-int	check_var(t_var *var, char *key)
-{
-	while (var)
-	{
-		if (!ft_strncmp(var->key, key, ft_strlen(key)))
-			return (1);
-		var = var->next;
-	}
-	return (0);
-}
-
-void	varadd_back(t_var **var, t_var *new)
+void	env_add_back(t_env **env, t_env *new)
 {
 	if (!new)
 		return ;
-	if (!*var)
-		*var = new;
+	if (!*env)
+		*env = new;
 	else
 	{
-		while (*var)
-			var = &(*var)->next;
-		*var = new;
+		while (*env)
+			env = &(*env)->next;
+		*env = new;
 	}
 }
 
-void	set_var(t_var **var, char *key, char *value)
+t_env	*get_env(void)
 {
-	if (check_var(*var, key))
-		update_var(*var, key, value);
-	else
-		varadd_back(var, create_var(key, value));
+	extern char	**environ;
+	t_env	*env;
+	t_env	*new;
+	int		i;
+	char	*key;
+	char	*value;
+
+	env = NULL;
+	i = -1;
+	while (environ[++i])
+	{
+		split_key_value(environ[i], &key, &value);
+		new = create_env(key, value);
+		if (!new)
+		{
+			free_env(&env);
+			return (NULL);
+		}
+		env_add_back(&env, new);
+	}
+	return (env);
 }
 
-void	free_var(t_var **var)
+void	free_env(t_env **env)
 {
-	t_var	*current;
+	t_env	*current;
 
-	while (*var)
+	while (*env)
 	{
-		current = *var;
-		*var = current->next;
+		current = *env;
+		*env = current->next;
 		if (current->key)
 			free(current->key);
 		if (current->value)
@@ -84,23 +97,25 @@ void	free_var(t_var **var)
 		free(current);
 	}
 }
+
+void	print_env(t_env *env)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		printf("%s=%s\n", current->key, current->value);
+		current = current->next;
+	}
+}
 /*
 int	main(void)
 {
-	t_var	*var;
-	t_var	*start;
+	t_env	*env;
 
-	var = NULL;
-	set_var(&var, "test1_key", "");
-	set_var(&var, "test2_key", "test2_value");
-	set_var(&var, "test3_key", "test3_value");
-	set_var(&var, "test2_key", "test2_update");
-	start = var;
-	while (var)
-	{
-		printf("%s=%s\n", var->key, var->value);
-		var = var->next;
-	}
-	free_var(&start);
+	env = get_env();
+	print_env(env);
+	free_env(&env);
 	return(0);
-} */
+}*/

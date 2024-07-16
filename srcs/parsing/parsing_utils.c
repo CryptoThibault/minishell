@@ -45,7 +45,7 @@ int	count_words(t_token *token)
 	return (count);
 }
 
-t_msh	*mshget_last(t_msh *msh)
+t_msh	*msh_get_last(t_msh *msh)
 {
 	t_msh	*current;
 
@@ -57,7 +57,7 @@ t_msh	*mshget_last(t_msh *msh)
 	return (current);
 }
 
-void	mshadd_back(t_msh **msh, t_msh *new)
+void	msh_add_back(t_msh **msh, t_msh *new)
 {
 	t_msh	*last;
 
@@ -67,7 +67,7 @@ void	mshadd_back(t_msh **msh, t_msh *new)
 		*msh = new;
 	else
 	{
-		last = mshget_last(*msh);
+		last = msh_get_last(*msh);
 		last->next = new;
 		new->prev = last;
 	}

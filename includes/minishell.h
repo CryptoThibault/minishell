@@ -33,20 +33,11 @@
 # define BIGGER 3
 # define PIPE 4
 
-typedef struct	s_var
+typedef struct	s_env
 {
 	char		*key;
 	char		*value;
-	struct s_var	*next;
-}		t_var;
-
-typedef struct s_env
-{
-	char	*full_var;
-	char	*var_name;
-	char	*var;
-	int		set;
-	struct	s_env	*next;
+	struct s_env	*next;
 }		t_env;
 
 typedef struct s_token
@@ -72,17 +63,16 @@ typedef struct s_msh
 	struct s_msh	*prev;
 }		t_msh;
 
-t_var	*create_var(char *key, char *value);
-void	update_var(t_var *var, char *key, char *value);
-int	check_var(t_var *var, char *key);
-void	varadd_back(t_var **var, t_var *new);
-void	set_var(t_var **var, char *key, char *value);
-void	free_var(t_var **var);
+t_env	*create_env(char *key, char *value);
+void	split_key_value(char *str, char **key, char **value);
+void	env_add_back(t_env **env, t_env *new);
+void	free_env(t_env **env);
+t_env	*get_env(void);
 
 t_token	*create_token(t_env *env);
-int	is_whitespace(char c);
-int	word_len(char *line, int start);
-void	tokenadd_back(t_token **token, t_token *new);
+int		is_whitespace(char c);
+int		word_len(char *line, int start);
+void	token_add_back(t_token **token, t_token *new);
 void	free_token(t_token **token);
 void	fill_word(t_token *token, char *line, int *i);
 void	fill_quote(t_token *token, char *line, int *i);
@@ -91,9 +81,9 @@ void	fill_token(t_token *token, char *line, int *i);
 t_token	*lexing(char *line, t_env *env);
 
 t_msh	*create_msh(int index);
-int	count_words(t_token *token);
-t_msh	*mshget_last(t_msh *msh);
-void	mshadd_back(t_msh **msh, t_msh *new);
+int		count_words(t_token *token);
+t_msh	*msh_get_last(t_msh *msh);
+void	msh_add_back(t_msh **msh, t_msh *new);
 void	free_msh(t_msh **msh);
 void	fill_command(t_msh *msh, t_token **token);
 void	fill_smaller(t_msh *msh, t_token **token);

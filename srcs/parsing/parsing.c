@@ -94,7 +94,7 @@ t_msh	*parsing(t_token *token)
 	{
 		new = create_msh(++i);
 		fill_msh(new, &token);
-		mshadd_back(&msh, new);
+		msh_add_back(&msh, new);
 	}
 	return (msh);
 }

@@ -50,7 +50,7 @@ void	fill_quote(t_token *token, char *line, int *i)
 	while (line[j] && line[j++] != '\'')
 		len++;
 	token->word = malloc(len + 1);
-	if (token->word)
+	if (!token->word)
 		return ;
 	j = 0;
 	while (line[*i] && line[*i] != '\'')
@@ -122,7 +122,7 @@ t_token	*lexing(char *line, t_env *env)
 	{
 		new = create_token(env);
 		fill_token(new, line, &i);
-		tokenadd_back(&token, new);
+		token_add_back(&token, new);
 	}
 	return (token);
 }
