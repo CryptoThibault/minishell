@@ -111,7 +111,7 @@ char	*get_value(t_env *env, char *key)
 			return (current->value);
 		current = current->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 void	print_env(t_env *env)

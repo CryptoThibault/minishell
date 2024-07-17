@@ -24,7 +24,7 @@ void	fill_value(t_token *token, char *line, int *i)
 	if (!key)
 		return ;
 	k = 0;
-	while (line[*i] && !ft_strchr(" \t\n<>|'\"", line[*i]))
+	while (line[*i] && !ft_strchr(" \t\n<>|'\"$", line[*i]))
 	{
 		key[k++] = line[*i];
 		(*i)++;
