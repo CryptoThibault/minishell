@@ -35,8 +35,12 @@ int	main(void)
 		add_history(line);
 		token = lexing(line, env);
 		free(line);
+		if (!token)
+			continue ;
 		msh = parsing(token);
 		free_token(&token);
+		if (!msh)
+			continue ;
 		execute(msh);
 		free_msh(&msh);
 	}

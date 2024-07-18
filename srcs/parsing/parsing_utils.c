@@ -73,6 +73,16 @@ void	msh_add_back(t_msh **msh, t_msh *new)
 	}
 }
 
+void	free_array(char **array)
+{
+	int	i;
+
+	i = -1;
+	while (array[++i])
+		free(array[i]);
+	free(array);
+}
+
 void	free_msh(t_msh **msh)
 {
 	t_msh	*current;

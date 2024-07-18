@@ -1,7 +1,6 @@
 NAME = minishell
 LIB = libft
 FILES = srcs/minishell.c \
-	srcs/array.c \
 	srcs/handler.c \
 	srcs/storage.c \
 	srcs/execute.c \

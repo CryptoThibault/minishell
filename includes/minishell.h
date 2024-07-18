@@ -44,8 +44,8 @@ typedef struct s_token
 {
 	int		id;
 	char		*word;
-	struct s_token	*next;
 	t_env		*env;
+	struct s_token	*next;
 }		t_token;
 
 typedef struct s_msh
@@ -78,6 +78,7 @@ void	free_token(t_token **token);
 void	fill_word(t_token *token, char *line, int *i);
 void	fill_quote(t_token *token, char *line, int *i);
 void	fill_doublequote(t_token *token, char *line, int *i);
+void    fill_value(t_token *token, char *line, int *i);
 void	fill_token(t_token *token, char *line, int *i);
 t_token	*lexing(char *line, t_env *env);
 

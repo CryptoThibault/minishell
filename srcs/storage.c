@@ -121,10 +121,13 @@ void	print_env(t_env *env)
 	current = env;
 	while (current)
 	{
-		printf("%s=%s\n", current->key, current->value);
+		printf("define -x %s\n", current->key);
+		if (current->value)
+			printf("=%s ", current->value);
 		current = current->next;
 	}
 }
+
 /*
 int	main(void)
 {
