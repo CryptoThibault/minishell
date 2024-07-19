@@ -31,35 +31,51 @@ void	fill_command(t_msh *msh, t_token **token)
 void	fill_smaller(t_msh *msh, t_token **token)
 {
 	*token = (*token)->next;
+	if (!*token)
+	{
+		printf("msh: parse error\n");
+		return ;
+	}
 	if ((*token)->id == SMALLER)
 	{
 		*token = (*token)->next;
 		msh->here_doc = 1;
 	}
-	if ((*token)->id == WORD)
+	if (!*token)
 	{
-		msh->infile = ft_strdup((*token)->word);
-		*token = (*token)->next;
+		printf("msh: parse error\n");
+		return ;
 	}
+	if ((*token)->id == WORD)
+		msh->infile = ft_strdup((*token)->word);
 	else
-		printf("msh: parse error");
+		printf("msh: parse error\n");
+	*token = (*token)->next;
 }
 
 void	fill_bigger(t_msh *msh, t_token **token)
 {
 	*token = (*token)->next;
+	if (!*token)
+	{
+		printf("msh: parse error\n");
+		return ;
+	}
 	if ((*token)->id == BIGGER)
 	{
 		*token = (*token)->next;
 		msh->append = 1;
 	}
-	if ((*token)->id == WORD)
+	if (!*token)
 	{
-		msh->outfile = ft_strdup((*token)->word);
-		*token = (*token)->next;
+		printf("msh: parse error\n");
+		return ;
 	}
+	if ((*token)->id == WORD)
+		msh->outfile = ft_strdup((*token)->word);
 	else
-		printf("msh: parse error");
+		printf("msh: parse error\n");
+	*token = (*token)->next;
 }
 
 void	fill_msh(t_msh *msh, t_token **token)
@@ -94,6 +110,8 @@ t_msh	*parsing(t_token *token)
 	{
 		new = create_msh(++i);
 		fill_msh(new, &token);
+		if (!new)
+			return (NULL);
 		msh_add_back(&msh, new);
 	}
 	return (msh);

@@ -71,7 +71,7 @@ OBJECTS = $(FILES:.c=.o)
 FLAGS = -Wall -Wextra -Werror
 
 %.o: %.c
-	cc $(FLAGS) -I $(NAME:.a=.h) -c $< -o $@
+	cc $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
 	ar rcs $(NAME) $(OBJECTS)

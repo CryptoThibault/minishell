@@ -19,8 +19,8 @@ int	main(void)
 	t_token *token;
 	t_msh	*msh;
 
-	//signal(SIGINT, sigint_handler);
-	//signal(SIGQUIT, sigquit_handler);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 	env = get_env();
 	while (1)
 	{

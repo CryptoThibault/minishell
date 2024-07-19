@@ -31,8 +31,9 @@ void	fill_value(t_token *token, char *line, int *i)
 	}
 	key[k] = 0;
 	if (!ft_strlen(key))
-		return ;
-	value = ft_strdup(get_value(token->env, key));
+		value  = ft_strdup("$");
+	else
+		value = ft_strdup(get_value(token->env, key));
 	free(key);
 	if (value)
 	{
