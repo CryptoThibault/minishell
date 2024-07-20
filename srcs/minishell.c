@@ -12,11 +12,24 @@
 
 #include "minishell.h"
 
+t_msh	*get_msh(char *line, t_env *env)
+{
+	t_token *token;
+	t_msh	*msh;
+	
+	token = lexing(line, env);
+	free(line);
+	if (!token)
+		return (NULL);
+	msh = parsing(token);
+	free_token(&token);
+	return (msh);
+}
+
 int	main(void)
 {
 	char	*line;
 	t_env	*env;
-	t_token *token;
 	t_msh	*msh;
 
 	signal(SIGINT, sigint_handler);
@@ -33,12 +46,7 @@ int	main(void)
 		if (!ft_strlen(line))
 			continue ;
 		add_history(line);
-		token = lexing(line, env);
-		free(line);
-		if (!token)
-			continue ;
-		msh = parsing(token);
-		free_token(&token);
+		msh = get_msh(line, env);
 		if (!msh)
 			continue ;
 		execute(msh);
