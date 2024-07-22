@@ -15,10 +15,10 @@ $(NAME): $(LIB)/$(LIB).a
 all: $(NAME)
 
 clean:
-	rm -f *.out
+	rm -f $(NAME)
 fclean: clean
-	rm  -f $(NAME)
-re: fclean  all
+	rm -f $(NAME)
+re: clean all
 
 $(LIB)/$(LIB).a:
 	make -C $(LIB)
