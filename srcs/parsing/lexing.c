@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:51:23 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 17:55:26 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:16:12 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,21 @@ void	fill_value(t_token *token, char *line, int *i)
 	}
 	key[k] = 0;
 	if (!ft_strlen(key))
-		value  = ft_strdup("$");
+		value = ft_strdup("$");
 	else
 		value = ft_strdup(get_value(token->env, key));
 	free(key);
 	if (value)
 	{
-		tmp = ft_strjoin(token->word, value);
+		if (token->word)
+		{
+			tmp = ft_strjoin(token->word, value);
+			free(token->word);
+			token->word = tmp;
+		}
+		else
+			token->word = ft_strdup(value);
 		free(value);
-		free(token->word);
-		token->word = tmp;
 	}
 }
 

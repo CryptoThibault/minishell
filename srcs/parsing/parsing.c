@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:02:41 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:28:32 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:00:19 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	fill_smaller(t_msh *msh, t_token **token)
 	if ((*token)->id == SMALLER)
 	{
 		*token = (*token)->next;
-		msh->here_doc = 1;
+		msh->heredoc = 1;
 	}
 	if (!*token)
 	{
@@ -109,9 +109,11 @@ t_msh	*parsing(t_token *token)
 	while (token)
 	{
 		new = create_msh(++i);
-		fill_msh(new, &token);
 		if (!new)
 			return (NULL);
+		fill_msh(new, &token);
+		if (!new->cmd)
+			break ;
 		msh_add_back(&msh, new);
 	}
 	return (msh);

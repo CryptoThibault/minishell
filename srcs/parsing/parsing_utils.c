@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:24:26 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 13:26:20 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:59:46 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_msh	*create_msh(int index)
 	msh->cmd = NULL;
 	msh->infile = NULL;
 	msh->outfile = NULL;
-	msh->here_doc = 0;
+	msh->heredoc = 0;
 	msh->append = 0;
 	msh->in_fd = -1;
 	msh->out_fd = -1;

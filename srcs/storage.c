@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:06:46 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 17:50:25 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:55:56 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	free_env(t_env **env)
 		free(current);
 	}
 }
-
+/*
 char	*get_value(t_env *env, char *key)
 {
 	t_env	*current;
@@ -113,7 +113,7 @@ char	*get_value(t_env *env, char *key)
 	}
 	return ("");
 }
-
+*/
 void	print_env(t_env *env)
 {
 	t_env	*current;

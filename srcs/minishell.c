@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 15:14:30 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/15 17:48:58 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:14:08 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_msh	*get_msh(char *line, t_env *env)
 {
-	t_token *token;
+	t_token	*token;
 	t_msh	*msh;
-	
+
 	token = lexing(line, env);
 	free(line);
 	if (!token)
