@@ -1,24 +1,43 @@
 NAME = minishell
-LIB = libft
-FILES = srcs/minishell.c \
-	srcs/handler.c \
-	srcs/storage.c \
-	srcs/execute.c \
-	srcs/parsing/lexing.c \
-	srcs/parsing/lexing_utils.c \
-	srcs/parsing/parsing.c \
-	srcs/parsing/parsing_utils.c
-FLAGS = -Wall -Wextra -Werror
+CC = cc
 
-$(NAME): $(LIB)/$(LIB).a
-	cc $(FLAGS) -o $@ -I includes $(FILES) $^ -lreadline
+LIBFT = includes/libft/
+CFLAGS = -Wall -Wextra -Werror -g3 -Iincludes -Isrc -MMD
+
+SRCS = \
+	src/main.c \
+	src/exec/child.c src/exec/heredoc.c \
+	src/parsing/parsing.c src/parsing/parsing_utils.c \
+	src/parsing/lexing.c src/parsing/lexing_utils.c \
+	src/builtins/echo.c src/builtins/cd.c src/builtins/pwd.c \
+	src/builtins/exit.c src/builtins/export.c \
+	src/builtins/env.c src/builtins/unset.c
+
+OBJS = $(SRCS:.c=.o)
+DEPS = $(OBJS:.o=.d)
+
 all: $(NAME)
 
-clean:
-	rm -f $(NAME)
-fclean: clean
-	rm -f $(NAME)
-re: clean all
+$(NAME): $(OBJS) $(LIBFT)libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT) -lft -lreadline
 
-$(LIB)/$(LIB).a:
-	make -C $(LIB)
+-include $(DEPS)
+
+$(LIBFT)libft.a:
+	make -C $(LIBFT)
+
+obj/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	make -C $(LIBFT) clean
+	rm -f $(OBJS) $(DEPS)
+
+fclean: clean
+	make -C $(LIBFT) fclean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re libft
