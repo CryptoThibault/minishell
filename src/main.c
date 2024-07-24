@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-// #include "../includes/parsing.h"
-// #include <bits/types/siginfo_t.h>
+#include "minishell.h"
 #include <readline/chardefs.h>
 #include <readline/readline.h>
 #include <readline/rltypedefs.h>
