@@ -1,32 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexing.c                                           :+:      :+:    :+:   */
+/*   fill_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 13:51:23 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/24 16:24:16 by wnocchi          ###   ########.fr       */
+/*   Created: 2024/07/24 17:36:44 by tchalaou          #+#    #+#             */
+/*   Updated: 2024/07/24 18:09:59 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_value_parsing(t_env *env, char *key)
-{
-	t_env	*current;
-	int	key_len;
-
-	current = env;
-	key_len = ft_strlen(key);
-	while (current)
-	{
-		if (!ft_strncmp(key, current->key, key_len) && !current->key[key_len])
-			return (current->value);
-		current = current->next;
-	}
-	return ("");
-}
 
 void	fill_value(t_token *token, char *line, int *i)
 {
@@ -47,9 +31,9 @@ void	fill_value(t_token *token, char *line, int *i)
 	}
 	key[k] = 0;
 	if (!ft_strlen(key))
-		value  = ft_strdup("$");
+		value = ft_strdup("$");
 	else
-		value = ft_strdup(get_value_parsing(token->env, key));
+		value = ft_strdup(get_env_value(token->env, key));
 	free(key);
 	if (value)
 	{
@@ -156,46 +140,7 @@ void	fill_token(t_token *token, char *line, int *i)
 	else if (line[*i] == '>')
 		token->id = BIGGER;
 	else if (line[*i] == '|')
-	{
-		if((size_t)*i != ft_strlen(line))
-			token->id = PIPE;
-	}
+		token->id = PIPE;
 	else
 		fill_word(token, line, i);
 }
-
-t_token	*lexing(char *line, t_env *env)
-{
-	t_token	*token;
-	t_token	*add;
-	int		i;
-
-	token = NULL;
-	i = -1;
-	while (line[++i])
-	{
-		add = create_token(env);
-		fill_token(add, line, &i);
-		token_add_back(&token, add);
-	}
-	return (token);
-}
-
-/*
-int	main()
-{
-	t_token	*token;
-	t_token *start;
-
-	token = lexing(" aa; <bb> | $cc ");
-	start = token;
-	while (token)
-	{
-		printf("id: %d\n", token->id);
-		if (token->word)
-			printf("word: %s\n", token->word);
-		token = token->next;
-	}
-	free_token(&start);
-	return (0);
-}*/

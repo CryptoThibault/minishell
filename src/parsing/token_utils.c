@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexing_utils.c                                     :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 13:15:51 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/24 14:23:42 by wnocchi          ###   ########.fr       */
+/*   Created: 2024/07/24 17:38:53 by tchalaou          #+#    #+#             */
+/*   Updated: 2024/07/24 18:08:45 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*get_env_value(t_env *env, char *key)
+{
+	t_env	*current;
+	int		key_len;
+
+	current = env;
+	key_len = ft_strlen(key);
+	while (current)
+	{
+		if (!ft_strncmp(key, current->key, key_len) && !current->key[key_len])
+			return (current->value);
+		current = current->next;
+	}
+	return ("");
+}
 
 t_token	*create_token(t_env *env)
 {
@@ -24,24 +40,6 @@ t_token	*create_token(t_env *env)
 	token->env = env;
 	token->next = NULL;
 	return (token);
-}
-
-int	is_whitespace(char c)
-{
-	return (c != ' ' && c != '\t' && c != '\v' && c != '\n');
-}
-
-int	word_len(char *line, int start)
-{
-	int	len;
-
-	len = 0;
-	while (line[start] && !ft_strchr(" \t\n;<>|'\"", line[start]))
-	{
-		len++;
-		start++;
-	}
-	return (len);
 }
 
 void	token_add_back(t_token **token, t_token *add)

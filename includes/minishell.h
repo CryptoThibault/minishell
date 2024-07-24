@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 09:48:36 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/24 15:18:06 by wnocchi          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:00:45 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,28 +100,21 @@ char	**get_env(t_env *env);
 void	signal_handler(int sig, siginfo_t *info, void *context);
 void	free_lst(t_msh *msh);
 
-t_env	*create_env(char *key, char *value);
-void	split_key_value(char *str, char **key, char **value);
-void	env_add_back(t_env **env, t_env *add);
-t_msh	*get_msh(char *line, t_env *env);
-// void	free_env(t_env **env);
-// t_env	*get_env(void);
-// char    *get_value_parsing(t_env *env, char *key);
-
-t_token	*create_token(t_env *env);
+/*PARSING*/
 int		is_whitespace(char c);
 int		word_len(char *line, int start);
+int		count_words(t_token *token);
+void	free_array(char **array);
+char    *get_env_value(t_env *env, char *key);
+t_token	*create_token(t_env *env);
 void	token_add_back(t_token **token, t_token *add);
 void	free_token(t_token **token);
+void    fill_value(t_token *token, char *line, int *i);
 void	fill_word(t_token *token, char *line, int *i);
 void	fill_quote(t_token *token, char *line, int *i);
 void	fill_doublequote(t_token *token, char *line, int *i);
-void    fill_value(t_token *token, char *line, int *i);
 void	fill_token(t_token *token, char *line, int *i);
-t_token	*lexing(char *line, t_env *env);
-
 t_msh	*create_msh(int index, t_env *env);
-int		count_words(t_token *token);
 t_msh	*msh_get_last(t_msh *msh);
 void	msh_add_back(t_msh **msh, t_msh *add);
 void	free_msh(t_msh **msh);
@@ -129,23 +122,8 @@ void	fill_command(t_msh *msh, t_token **token);
 void	fill_smaller(t_msh *msh, t_token **token);
 void	fill_bigger(t_msh *msh, t_token **token);
 void	fill_msh(t_msh *msh, t_token **token);
+t_token	*lexing(char *line, t_env *env);
 t_msh	*parsing(t_token *token, t_env *env);
-// char	*get_value(char *value);
-
-int		array_size(char **array);
-void	free_array(char **array);
-void	sigint_handler(int sig);
-void	sigquit_handler(int sig);
-
-void	execute(t_msh *msh);
-
-void	builtins(int ac, char **av);
-void	cmd_echo(int ac, char **av);
-void	cmd_cd(int ac, char **av);
-void	cmd_pwd(int ac, char **av);
-void	cmd_export(int ac, char **av);
-void	cmd_unset(int ac, char **av);
-void	cmd_env(int ac, char **av);
-void	cmd_exit(int ac, char **av);
+t_msh	*get_msh(char *line, t_env *env);
 
 #endif
