@@ -50,8 +50,9 @@ t_msh	*parsing(t_token *token, t_env *env)
 		if (!add)
 			return (NULL);
 		fill_msh(add, &token);
-		if (!add->cmd)
+		if (!add->cmd/* && !add->infile*/)
 		{
+			free_msh(&add);
 			free_msh(&msh);
 			return (NULL);
 		}

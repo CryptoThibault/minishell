@@ -44,7 +44,6 @@ typedef struct s_token
 typedef struct s_msh
 {
 	char 			*hlimit;
-	// char			**prompt;
 	int				here_doc;
 	char			**cmd;
 	char			**my_env;
@@ -117,8 +116,8 @@ t_msh	*msh_get_last(t_msh *msh);
 void	msh_add_back(t_msh **msh, t_msh *add);
 void	free_msh(t_msh **msh);
 void	fill_command(t_msh *msh, t_token **token);
-void	fill_smaller(t_msh *msh, t_token **token);
-void	fill_bigger(t_msh *msh, t_token **token);
+int		fill_smaller(t_msh *msh, t_token **token);
+int		fill_bigger(t_msh *msh, t_token **token);
 void	fill_msh(t_msh *msh, t_token **token);
 t_token	*lexing(char *line, t_env *env);
 t_msh	*parsing(t_token *token, t_env *env);
