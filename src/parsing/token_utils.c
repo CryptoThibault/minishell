@@ -35,10 +35,8 @@ t_token	*create_token(t_env *env)
 	token = ft_calloc(sizeof(t_token), 1);
 	if (!token)
 		return (NULL);
-	token->id = -1;
-	token->word = NULL;
+	token->id = 0;
 	token->env = env;
-	token->next = NULL;
 	return (token);
 }
 

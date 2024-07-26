@@ -89,8 +89,8 @@ void	fill_quote(t_token *token, char *line, int *i)
 		(*i)++;
 	}
 	token->word[j] = 0;
-	if (line[*i] == '\'')
-		(*i)++;
+	if (line[*i] != '\'')
+		(*i)--;
 }
 
 void	fill_doublequote(t_token *token, char *line, int *i)
@@ -113,16 +113,16 @@ void	fill_doublequote(t_token *token, char *line, int *i)
 		if (line[*i] == '$')
 		{
 			fill_value(token, line, i);
-			if (line[*i] == '"')
-				(*i)++;
+			if (line[*i] != '"')
+				(*i)--;
 			return ;
 		}
 		token->word[j++] = line[*i];
 		(*i)++;
 	}
 	token->word[j] = 0;
-	if (line[*i] == '"')
-		(*i)++;
+	if (line[*i] != '"')
+		(*i)--;
 }
 
 void	fill_token(t_token *token, char *line, int *i)

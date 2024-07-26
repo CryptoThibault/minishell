@@ -23,7 +23,14 @@ t_token	*lexing(char *line, t_env *env)
 	while (line[++i])
 	{
 		add = create_token(env);
+		if (!add)
+			return (NULL);
 		fill_token(add, line, &i);
+		if (!add->id)
+		{
+			free_token(&add);
+			break ;
+		}
 		token_add_back(&token, add);
 	}
 	return (token);

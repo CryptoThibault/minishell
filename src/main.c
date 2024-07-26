@@ -472,6 +472,8 @@ int	msh_loop(t_msh *msh, t_env *env)
 			continue ;
 		add_history(line);
 		msh = get_msh(line, env);
+		if (!msh)
+			continue ;
 		// msh = my_parsing(line, env);
 		// execute(msh);
 		// print_msh(msh);

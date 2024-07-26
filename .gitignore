@@ -1,7 +1,7 @@
 minishell
-libft/*.a
-libft/*.o
-libft/*.d
+includes/libft/*.a
+includes/libft/*.o
+includes/libft/*.d
 src/*.o
 src/*.d
 src/*/*.o
