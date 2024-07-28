@@ -102,6 +102,7 @@ int		is_whitespace(char c);
 int		word_len(char *line, int start);
 int		count_words(t_token *token);
 void	free_array(char **array);
+void	join_replace(char **word, char **value);
 char    *get_env_value(t_env *env, char *key);
 t_token	*create_token(t_env *env);
 void	token_add_back(t_token **token, t_token *add);

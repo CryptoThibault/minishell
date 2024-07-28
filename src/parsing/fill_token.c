@@ -16,7 +16,6 @@ void	fill_value(t_token *token, char *line, int *i)
 {
 	char	*key;
 	char	*value;
-	char	*tmp;
 	int		k;
 
 	(*i)++;
@@ -36,12 +35,7 @@ void	fill_value(t_token *token, char *line, int *i)
 		value = ft_strdup(get_env_value(token->env, key));
 	free(key);
 	if (value)
-	{
-		tmp = ft_strjoin(token->word, value);
-		free(value);
-		free(token->word);
-		token->word = tmp;
-	}
+		join_replace(&token->word, &value);
 }
 
 void	fill_word(t_token *token, char *line, int *i)
@@ -74,8 +68,7 @@ void	fill_quote(t_token *token, char *line, int *i)
 	int	len;
 
 	token->id = WORD;
-	(*i)++;
-	j = *i;
+	j = ++(*i);
 	len = 0;
 	while (line[j] && line[j++] != '\'')
 		len++;
@@ -99,8 +92,7 @@ void	fill_doublequote(t_token *token, char *line, int *i)
 	int	len;
 
 	token->id = WORD;
-	(*i)++;
-	j = *i;
+	j = ++(*i);
 	len = 0;
 	while (line[j] && line[j++] != '"')
 		len++;
@@ -113,14 +105,13 @@ void	fill_doublequote(t_token *token, char *line, int *i)
 		if (line[*i] == '$')
 		{
 			fill_value(token, line, i);
-			if (line[*i] != '"')
-				(*i)--;
-			return ;
+			break ;
 		}
 		token->word[j++] = line[*i];
 		(*i)++;
 	}
-	token->word[j] = 0;
+	if (j == len)
+		token->word[j] = 0;
 	if (line[*i] != '"')
 		(*i)--;
 }

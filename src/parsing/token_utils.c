@@ -28,6 +28,15 @@ char	*get_env_value(t_env *env, char *key)
 	return ("");
 }
 
+void	join_replace(char **word, char **value) {
+	char	*tmp;
+
+	tmp = ft_strjoin(*word, *value);
+	free(*value);
+	free(*word);
+	*word = tmp;
+}
+
 t_token	*create_token(t_env *env)
 {
 	t_token	*token;
