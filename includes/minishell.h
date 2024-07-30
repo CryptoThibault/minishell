@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 09:48:36 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/30 09:42:38 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:30:09 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,15 @@
 
 # include "../libft/libft.h"
 # include <stdio.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <readline/chardefs.h>
 # include <readline/rltypedefs.h>
 # include <sys/ioctl.h>
-# include <fcntl.h>
 # include <sys/wait.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <dirent.h>
-# include <string.h>
-# include <termios.h>
-# include <curses.h>
-# include <limits.h>
 
 # define WORD 1
 # define SMALLER 2
