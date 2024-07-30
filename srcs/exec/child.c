@@ -6,15 +6,11 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 10:33:48 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/24 09:58:14 by wnocchi          ###   ########.fr       */
+/*   Updated: 2024/07/30 09:54:57 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <fcntl.h>
-#include <linux/limits.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
 
 int	get_flags(t_msh *msh)
 {

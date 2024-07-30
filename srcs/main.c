@@ -6,22 +6,11 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:04:34 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/24 16:19:23 by wnocchi          ###   ########.fr       */
+/*   Updated: 2024/07/30 09:46:07 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/chardefs.h>
-#include <readline/readline.h>
-#include <readline/rltypedefs.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <unistd.h>
-#include <readline/history.h>
-
 
 void	ft_free(void *ptr)
 {
@@ -401,24 +390,7 @@ int	init_sigint()
     }
 	return (0);
 }
-
-// int	expend_var(char *var, t_env *env)
-// {
-// 	char *env_var;
-// 	int j;
-// 	int i;
-
-// 	j = 0;
-// 	i = 0;
-// 	while(var[i])
-// 	{
-// 		j++;
-// 		if(var[i++] == '&')
-// 		{
-// 			while
-// 		}
-// 	}
-// }
+/*
 void print_msh(t_msh *msh)
 {
 	t_msh *current = msh;
@@ -429,34 +401,12 @@ void print_msh(t_msh *msh)
 			ft_printf(1, "%s ", current->cmd[i]);
 		ft_printf(1, "%s %s %d", current->infile, current->outfile, current->index);
 	}
-}
-
-void	execute(t_msh *msh)
-{
-	t_msh	*current;
-
-	current = msh;
-	while (current)
-	{
-		printf("index: %d\n", current->index);
-		if (current->cmd)
-		{
-			int	i = -1;
-			while (current->cmd[++i])
-				printf("cmd[%d]: %s\n", i, current->cmd[i]);
-		}
-		if (current->infile)
-			printf("infile: %s\n", current->infile);
-		if (current->outfile)
-			printf("outfile: %s\n", current->outfile);
-		current = current->next;
-	}
-}
+}*/
 
 int	msh_loop(t_msh *msh, t_env *env)
 {	
-	char *line;
-	char *prompt;
+	char	*line;
+	char	*prompt;
 
 	init_sigint();
 	while (1)
@@ -474,23 +424,17 @@ int	msh_loop(t_msh *msh, t_env *env)
 		msh = get_msh(line, env);
 		if (!msh)
 			continue ;
-		// msh = my_parsing(line, env);
-		// execute(msh);
-		// print_msh(msh);
 		exec(msh, env);
-		// free_lst(msh);
 	}
 	return (0);
 }
 
-int main(void)
+int	main(void)
 {
-	t_msh msh;
-	t_env *env;
-	extern char **environ;
-	// if(envp[0] == NULL)
-	// 	return (1);
-	// ft_bzero(env, sizeof(t_env));
+	t_msh		msh;
+	t_env		*env;
+	extern char	**environ;
+
 	env = env_into_list(environ);
 	ft_bzero(&msh, sizeof(t_msh));
 	msh_loop(&msh, env);

@@ -6,12 +6,11 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:00:34 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/24 08:42:51 by wnocchi          ###   ########.fr       */
+/*   Updated: 2024/07/30 09:56:28 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <limits.h>
+#include "minishell.h"
 
 bool	only_digit_string(char *s)
 {

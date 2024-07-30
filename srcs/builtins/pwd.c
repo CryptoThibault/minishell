@@ -6,13 +6,11 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 09:43:11 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/24 08:42:56 by wnocchi          ###   ########.fr       */
+/*   Updated: 2024/07/30 09:57:19 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
 
 int	get_pwd(char **arg, t_msh *msh)
 {

@@ -1,29 +1,29 @@
 NAME = minishell
 CC = cc
 
-LIBFT = includes/libft/
-CFLAGS = -Wall -Wextra -Werror -g3 -Iincludes
+LIBFT = libft
+CFLAGS = -Wall -Wextra -Werror -Iincludes
 
-SRCS =	src/main.c \
-	src/exec/child.c src/exec/heredoc.c \
-	src/parsing/get_msh.c src/parsing/parsing_utils.c \
-	src/parsing/fill_token.c src/parsing/token_utils.c \
-	src/parsing/fill_msh.c src/parsing/msh_utils.c \
-	src/builtins/echo.c src/builtins/cd.c src/builtins/pwd.c \
-	src/builtins/exit.c src/builtins/export.c \
-	src/builtins/env.c src/builtins/unset.c
+SRCS =	srcs/main.c \
+	srcs/exec/child.c srcs/exec/heredoc.c \
+	srcs/parsing/get_msh.c srcs/parsing/parsing_utils.c \
+	srcs/parsing/fill_token.c srcs/parsing/token_utils.c \
+	srcs/parsing/fill_msh.c srcs/parsing/msh_utils.c \
+	srcs/builtins/echo.c srcs/builtins/cd.c srcs/builtins/pwd.c \
+	srcs/builtins/exit.c srcs/builtins/export.c \
+	srcs/builtins/env.c srcs/builtins/unset.c
 
 OBJS = $(SRCS:.c=.o)
 DEPS = $(OBJS:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)libft.a
+$(NAME): $(OBJS) $(LIBFT)/$(LIBFT).a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT) -lft -lreadline
 
 -include $(DEPS)
 
-$(LIBFT)libft.a:
+$(LIBFT)/$(LIBFT).a:
 	make -C $(LIBFT)
 
 obj/%.o: src/%.c
@@ -40,4 +40,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re

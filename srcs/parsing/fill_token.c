@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:36:44 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/24 18:09:59 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:47:51 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ void	fill_quote(t_token *token, char *line, int *i)
 		return ;
 	j = 0;
 	while (line[*i] && line[*i] != '\'')
-	{
-		token->word[j++] = line[*i];
-		(*i)++;
-	}
+		token->word[j++] = line[(*i)++];
 	token->word[j] = 0;
 	if (line[*i] != '\'')
 		(*i)--;
@@ -107,8 +104,7 @@ void	fill_doublequote(t_token *token, char *line, int *i)
 			fill_value(token, line, i);
 			break ;
 		}
-		token->word[j++] = line[*i];
-		(*i)++;
+		token->word[j++] = line[(*i)++];
 	}
 	if (j == len)
 		token->word[j] = 0;

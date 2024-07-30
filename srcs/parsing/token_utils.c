@@ -6,7 +6,7 @@
 /*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:38:53 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/24 18:08:45 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:50:57 by tchalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*get_env_value(t_env *env, char *key)
 	return ("");
 }
 
-void	join_replace(char **word, char **value) {
+void	join_replace(char **word, char **value)
+{
 	char	*tmp;
 
 	tmp = ft_strjoin(*word, *value);
