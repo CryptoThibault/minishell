@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_msh.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:33:18 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/30 09:50:12 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:06:46 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ t_msh	*parsing(t_token *token, t_env *env)
 		add = create_msh(++i, env);
 		if (!add)
 			return (NULL);
-		fill_msh(add, &token);
-		if (!add->cmd)
+		if (fill_msh(add, &token))
 		{
 			free_msh(&add);
 			free_msh(&msh);

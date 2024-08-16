@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:47:22 by tchalaou          #+#    #+#             */
-/*   Updated: 2024/07/24 18:08:30 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:21:57 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	word_len(char *line, int start)
 	int	len;
 
 	len = 0;
-	while (line[start] && !ft_strchr(" \t\n;<>|'\"", line[start]))
+	while (line[start] && !ft_strchr(" \t\n<>|'\"", line[start]))
 	{
 		len++;
 		start++;

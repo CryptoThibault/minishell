@@ -6,67 +6,48 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 09:45:46 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/30 09:54:49 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:58:46 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int heredoc_signal_handler(int sig) {
-//     if (sig == SIGINT) {
-//         printf("\nExiting heredoc mode.\n");
-//         return (1); // Quitte le mode heredoc
-//     }
-// 	return (0);
-// }
-
-int	check_heredoc(t_msh *msh, char **av)
+int	init_heredoc(t_msh *msh, const char	*cpy)
 {
-	(void)av;
-	// char *filename;
-	// char *index;
-	
-		if (msh->here_doc != -1)
-		{
-			
-			// index = ft_itoa(msh->index);
-			// if(!index)
-				// return (1);
-			// filename = ft_strjoin("/tmp/heredoc_", index);
-			// free(index);
-			// if(!filename)
-			// 	return (1);
-			// unlink(filename);
-			// msh->hlimit = ft_strdup(av[1]);
-			// if (!msh->hlimit)
-			// 	return(1);
-			// unlink(filename);
-			// free(filename);
-			msh->in = open(msh->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			if(msh->in == -1)
-				return (perror("msh"), 1);
-		}
+	g_last_sig = 0;
+	free(msh->infile);
+	msh->infile = ft_strjoin("/tmp/", cpy);
+	if (!msh->infile)
+		return (free((void *)cpy), 1);
+	msh->in = open(msh->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (msh->in == -1)
+		return (perror("msh"), free((void *)cpy), 1);
+	if (!msh->cmd)
+		unlink(msh->infile);
 	return (0);
 }
 
-void	here_doc(t_msh *msh, char **av)
+int	here_doc(t_msh *msh)
 {
-	char	*line;
+	char		*line;
+	char		*exp_line;
+	const char	*cpy = ft_strdup(msh->infile);
 
-	if (*av && check_heredoc(msh, av) == 0)
+	if (!cpy || init_heredoc(msh, cpy))
+		return (set_excode(&msh->env, 1), 1);
+	while (1)
 	{
 		line = readline(MAGENTA"msh_heredoc> "RESET);
-		while (line)
+		if (!line || !ft_strcmp(line, (char *)cpy) || g_last_sig == SIGINT)
 		{
-			if (!line || ft_strcmp(line, msh->hlimit) == 0)
-			{
-				free(line);
-				return ;
-			}
-			ft_putendl_fd(line, msh->in);
-			free(line);
-			line = readline(MAGENTA"msh_heredoc> "RESET);
+			free((void *)cpy);
+			if (g_last_sig == SIGINT)
+				return (free(line), unlink(msh->infile), SIGINT);
+			return (free(line), 0);
 		}
+		exp_line = expand_variable(&msh->env, line);
+		ft_putendl_fd(exp_line, msh->in);
+		free(exp_line);
 		free(line);
 	}
 }

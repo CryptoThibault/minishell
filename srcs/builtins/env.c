@@ -6,7 +6,7 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:46:46 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/30 09:56:14 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:40:25 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*get_key_env(char *value)
 	int	i;
 
 	i = 0;
+	if (!value)
+		return (NULL);
 	if (!is_equal(value) || is_equal(value) == 3)
 		return (ft_strdup(value));
 	while ((size_t)i < ft_strlen(value))
@@ -68,21 +70,23 @@ char	*get_value_env(char *value)
 		return (ft_substr(value, i + 1, (ft_strlen(value) - i)));
 }
 
-int	split_env(t_env *env)
+int	split_env(t_env **env)
 {
 	t_env	*current;
 
-	current = env;
+	current = *env;
 	while (current)
 	{
-		current->value = get_value_env(current->full_var);
-		current->key = get_key_env(current->full_var);
+		if (current->full_var)
+			current->value = get_value_env(current->full_var);
+		if (current->full_var)
+			current->key = get_key_env(current->full_var);
 		current = current->next;
 	}
 	return (0);
 }
 
-int	ft_env(t_env *env, t_msh *msh)
+int	ft_env(t_env **env, t_msh *msh)
 {
 	t_env		*current;
 	int			i;
@@ -91,7 +95,7 @@ int	ft_env(t_env *env, t_msh *msh)
 	i = 0;
 	if (fd == -1)
 		return (perror("msh"), 1);
-	current = env;
+	current = *env;
 	while (current)
 	{
 		if (current->value != NULL)
@@ -99,5 +103,5 @@ int	ft_env(t_env *env, t_msh *msh)
 		current = current->next;
 		i++;
 	}
-	return (0);
+	return (set_excode(env, 1), 0);
 }

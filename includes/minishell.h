@@ -6,24 +6,20 @@
 /*   By: wnocchi <wnocchi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 09:48:36 by wnocchi           #+#    #+#             */
-/*   Updated: 2024/07/30 10:30:09 by tchalaou         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:32:27 by wnocchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
+
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include <fcntl.h>
-# include <signal.h>
-# include <limits.h>
 # include <readline/readline.h>
+# include <errno.h>
+# include <signal.h>
 # include <readline/history.h>
-# include <readline/chardefs.h>
-# include <readline/rltypedefs.h>
-# include <sys/ioctl.h>
-# include <sys/wait.h>
 
 # define WORD 1
 # define SMALLER 2
@@ -32,12 +28,13 @@
 
 typedef struct s_env
 {
+	int				ex_code;
+	char			**full_env;
+	char			*full_var;
 	char			*key;
 	char			*value;
-	char			*full_var;
-	char			**full_env;
 	struct s_env	*next;
-}		t_env;
+}					t_env;
 
 typedef struct s_token
 {
@@ -45,11 +42,11 @@ typedef struct s_token
 	char			*word;
 	t_env			*env;
 	struct s_token	*next;
-}		t_token;
+	struct s_token	*prev;
+}					t_token;
 
 typedef struct s_msh
 {
-	char			*hlimit;
 	int				here_doc;
 	char			**cmd;
 	char			**my_env;
@@ -63,26 +60,44 @@ typedef struct s_msh
 	struct s_env	*env;
 	struct s_msh	*next;
 	struct s_msh	*prev;
-}		t_msh;
+}					t_msh;
+
+extern int	g_last_sig;
+
+/*BUILTINS*/
+int		ft_env(t_env **env, t_msh *msh);
+int		ft_unset(t_env **env, char **av);
+void	ft_echo(t_msh *msh);
+int		ft_cd(char **arg, t_env **env);
+int		ft_exit(t_msh *msh, t_env **env);
+int		get_pwd(char **arg, t_msh *msh);
+int		ft_export(t_msh *msh, t_env **env);
 
 /*EXEC*/
-int		split_env(t_env *env);
+int		msh_loop(t_msh *msh, t_env **env);
+char	*custom_prompt(t_env **env);
+void	wait_pids(t_env **env);
+void	set_global(t_env **env);
+int		exec(t_msh *msh, t_env **env);
+int		check_exec(char *cmd, t_msh *msh, t_env **env);
+bool	update_it(char *av, t_env *current, const char *v, const char *v_name);
+int		print_export(char **sorted, t_msh *msh);
+char	**sort_env(char **tab, t_env *env);
+t_env	*create_env_node(char **envp, int i);
+void	set_excode(t_env **env, int code);
+void	add_env_node(t_env **lst, t_env *add);
+void	setup_exec_signals(void);
+int		split_env(t_env **env);
 int		is_equal(char *var);
 char	*get_key_env(char *var);
 char	*get_value_env(char *var);
 int		env_len(t_env *env);
-int		update_env(t_env *env);
-int		ft_env(t_env *env, t_msh *msh);
-int		ft_unset(t_env **env, char **av);
+int		update_env(t_env **env);
 int		ft_del_node(t_env **head, char *av);
-void	here_doc(t_msh *msh, char **av);
-void	ft_echo(t_msh *msh);
-int		ft_cd(char **arg, t_env *env);
-int		ft_exit(t_msh *msh, t_env *env);
-int		get_pwd(char **arg, t_msh *msh);
-int		ft_export(t_msh *msh, t_env *env);
-int		free_env(t_env *env);
-t_env	*env_into_list(char **envp);
+int		here_doc(t_msh *msh);
+char	*expand_variable(t_env **env, char *line);
+int		free_env(t_env **env);
+t_env	**env_into_list(char **envp);
 t_msh	*ft_lastnode(t_msh *lst);
 int		redirect_fd(t_msh *msh);
 int		which_fd(t_msh *msh);
@@ -90,15 +105,11 @@ int		close_pipes(t_msh *msh);
 int		close_files(t_msh *msh);
 void	free_tab(char **tab);
 int		get_flags(t_msh *msh);
-int		redirect_fd_write(t_msh *msh, int *pipefd);
 int		ft_lstlen(t_msh *msh);
-void	ft_free(void *ptr);
 char	*join_path_access(char *av, t_env *env);
-char	**get_path(t_env *env);
 void	ft_err(char *error);
 int		init_sigint(void);
 char	**get_env(t_env *env);
-void	signal_handler(int sig, siginfo_t *info, void *context);
 void	free_lst(t_msh *msh);
 
 /*PARSING*/
@@ -123,7 +134,7 @@ void	free_msh(t_msh **msh);
 void	fill_command(t_msh *msh, t_token **token);
 int		fill_smaller(t_msh *msh, t_token **token);
 int		fill_bigger(t_msh *msh, t_token **token);
-void	fill_msh(t_msh *msh, t_token **token);
+int		fill_msh(t_msh *msh, t_token **token);
 t_token	*lexing(char *line, t_env *env);
 t_msh	*parsing(t_token *token, t_env *env);
 t_msh	*get_msh(char *line, t_env *env);
